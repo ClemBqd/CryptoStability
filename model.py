@@ -7,15 +7,15 @@ from firm import Firm
 class BtcModel(Model):
     def __init__(self, n_households):
         self.n_households = n_households
-        super().__init__(n_households)
+        super().__init__()
         # Chose a schedule
         self.schedule = RandomActivation(self)
 
         # Create  a bank, a firm and n household
-        bank = Bank(1, self) 
-        self.schedule.add(bank)
-        firm = Firm(2, self)
-        self.schedule.add(firm)
+        # bank = Bank(1, self) 
+        # self.schedule.add(bank)
+        # firm = Firm(2, self)
+        # self.schedule.add(firm)
         
     
         for i in range(self.n_households):

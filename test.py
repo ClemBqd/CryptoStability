@@ -1,6 +1,15 @@
+#%%
 from model import BtcModel
+import matplotlib.pyplot as plt 
 
+empty_model = BtcModel(3)
 
-empty_model = BtcModel(200)
+for i in range(2):
+    empty_model.step()
 
-print(empty_model.n_households)
+agent_kapital = [a.kapital for a in empty_model.schedule.agents]
+
+print(agent_kapital)
+plt.hist(agent_kapital)
+plt.show()
+# %%
