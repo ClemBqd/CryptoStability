@@ -43,7 +43,7 @@ class Household(Agent):
             self.conso = techno*((self.kapital + self.speculator_portfolio)**alpha)*(travail**(1-alpha))*(1 - alpha*beta)
         # self.kapital -= self.conso
 
-    def receive_salaries(self):
+    def receive_salary(self):
         self.wage = (1 - gamma)*self.model.production
         # self.capital += self.wage
         return self.wage
@@ -53,5 +53,5 @@ class Household(Agent):
         self.kapital_evolution()
         self.speculators_portfolio()
         self.consumption()
-        self.receive_salaries()
+        self.receive_salary()
         
