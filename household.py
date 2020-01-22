@@ -31,7 +31,7 @@ class Household(Agent):
             self.kapital = (1 - sp + rk)*self.kapital + self.wage - self.conso + self.loan*(1 + rate_loan)
         return self.kapital
     
-    def speculators_portfolio(self):
+    def speculator_ptf(self):
         if self.risk_profile == 1:
             self.speculator_portfolio = self.speculator_portfolio*(1 + ispe) + P*self.kapital + self.loan
         return self.speculator_portfolio
@@ -51,7 +51,7 @@ class Household(Agent):
     def step(self):
         
         self.kapital_evolution()
-        self.speculators_portfolio()
+        self.speculator_ptf()
         self.consumption()
         self.receive_salary()
         
