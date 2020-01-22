@@ -1,7 +1,7 @@
 from mesa import Agent
 
-ispe = 0 # Cours du bitcoin - à add en argument step function
-P = 0 #Propertion to speculate
+ispe = 0.1 # Cours du bitcoin - à add en argument step function
+P = 0.1 #Propertion to speculate
 rk = 0.1 #To define
 sp = 0.1 #To define = %of kapital speculators
 techno = 0.5 # technology factor - Z
@@ -22,7 +22,7 @@ class Household(Agent):
         self.kapital = 10 
         self.conso = 10
         self.loan = 10
-        self.speculator_portfolio = 10 
+        self.speculator_portfolio = 10.0 
         
     def kapital_evolution(self):
         if self.risk_profile == -1:
@@ -30,12 +30,12 @@ class Household(Agent):
         else:
             self.kapital = (1 - sp + rk)*self.kapital + self.wage - self.conso + self.loan*(1 + rate_loan)
         return self.kapital
-    '''
+    
     def speculators_portfolio(self):
         if self.risk_profile == 1:
-            self.speculator_portfolio = self.speculators_portfolio*(1 + ispe) + P*self.kapital + self.loan
+            self.speculator_portfolio = self.speculator_portfolio*(1 + ispe) + P*self.kapital + self.loan
         return self.speculator_portfolio
-    '''
+    
     def consumption(self):
         if self.risk_profile == -1:
             self.conso = techno*(self.kapital**alpha)*(travail**(1-alpha))*(1 - alpha*beta)
@@ -51,7 +51,7 @@ class Household(Agent):
     def step(self):
         
         self.kapital_evolution()
-        # self.speculators_portfolio()
+        self.speculators_portfolio()
         self.consumption()
         self.receive_salary()
         
