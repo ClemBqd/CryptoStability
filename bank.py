@@ -8,6 +8,7 @@ class Bank(Agent):
         self.deposits = 0
         #self.reserves = ((self.reserve_percent / 100)*self.deposits)
 
+
     def step(self):
 
         pass

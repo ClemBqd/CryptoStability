@@ -10,9 +10,10 @@ class BtcModel(Model):
         super().__init__()
         # Chose a schedule
         self.schedule = RandomActivation(self)
+        self.production = 10
 
         # Create  a bank, a firm and n household
-        # bank = Bank(1, self) 
+        # self.bank = Bank(1, self) 
         # self.schedule.add(bank)
         # firm = Firm(2, self)
         # self.schedule.add(firm)
@@ -29,7 +30,7 @@ class BtcModel(Model):
     def step(self):
         # Tell all the agents in the model to run their step function
         self.schedule.step()
-
+        #self.bank.step()
         # Collect data
         # self.datacollector.collect(self)
 

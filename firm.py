@@ -9,14 +9,7 @@ class Firm(Agent):
         self.wealth = 0 # = capital - debt
         self.debt = 0
     
-    # to put in BtcModel
-    def production(self):
-        self.production = "equation 8"
-    
-    def give_salaries(self):
-
-        pass
-    
+ 
     def growth(self):
         pass
 

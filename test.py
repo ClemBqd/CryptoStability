@@ -8,8 +8,12 @@ for i in range(2):
     empty_model.step()
 
 agent_kapital = [a.kapital for a in empty_model.schedule.agents]
+agent_wage = [a.wage for a in empty_model.schedule.agents]
+# test1 = empty_model.bank.deposits
 
 print(agent_kapital)
-plt.hist(agent_kapital)
-plt.show()
+print(agent_wage)
+# print(test1)
+# plt.hist(agent_kapital)
+# plt.show()
 # %%

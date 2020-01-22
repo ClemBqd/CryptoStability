@@ -8,7 +8,8 @@ techno = 0.5 # technology factor - Z
 alpha = 0
 beta = 0
 travail = 0
-rate_loan = 0.1
+rate_loan = 0.1 # if the rate_loan is the variable that is impacted by the econimic cycle -> to put in model.py file
+gamma = 0.1 # coefficient of production
 # self.bank ? 
 
 class Household(Agent):
@@ -40,10 +41,17 @@ class Household(Agent):
             self.conso = techno*(self.kapital**alpha)*(travail**(1-alpha))*(1 - alpha*beta)
         else:
             self.conso = techno*((self.kapital + self.speculator_portfolio)**alpha)*(travail**(1-alpha))*(1 - alpha*beta)
+        # self.kapital -= self.conso
+
+    def receive_salaries(self):
+        self.wage = (1 - gamma)*self.model.production
+        # self.capital += self.wage
+        return self.wage
 
     def step(self):
         
         self.kapital_evolution()
         self.speculators_portfolio()
         self.consumption()
+        self.receive_salaries()
         
