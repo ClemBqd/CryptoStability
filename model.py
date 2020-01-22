@@ -4,6 +4,8 @@ from household import Household
 from bank import Bank
 from firm import Firm
 
+risk_lovers_rate = 0.1
+
 class BtcModel(Model):
     def __init__(self, n_households):
         self.n_households = n_households
@@ -19,10 +21,14 @@ class BtcModel(Model):
         # self.schedule.add(bank)
         # firm = Firm(2, self)
         # self.schedule.add(firm)
-    
+        x = risk_lovers_rate*self.n_households
         for i in range(self.n_households):
-            h = Household(i+2, self)
-            self.schedule.add(h) 
+            if i <= x:
+                h = Household(i+2, 1, self)
+                self.schedule.add(h)
+            else:
+                hp = Household(i+2, -1, self)
+                self.schedule.add(hp)
 
         # Create datacollector here
 

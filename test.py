@@ -2,7 +2,7 @@
 from model import BtcModel
 import matplotlib.pyplot as plt 
 
-empty_model = BtcModel(3)
+empty_model = BtcModel(100)
 print(empty_model.kapital_households)
 
 for i in range(2):
@@ -15,6 +15,7 @@ agent_wage = [a.wage for a in empty_model.schedule.agents]
 print(agent_kapital)
 print(agent_wage)
 print(empty_model.kapital_households)
+print(empty_model.kapital_households_speculators)
 # print(test1)
 # plt.hist(agent_kapital)
 # plt.show()
