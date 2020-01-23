@@ -1,6 +1,6 @@
 from mesa import Agent, Model
 from mesa.time import RandomActivation
-from household import Household
+from household import Household, loan_households
 from bank import Bank
 from firm import Firm
 
@@ -13,8 +13,12 @@ class BtcModel(Model):
         # Chose a schedule
         self.schedule = RandomActivation(self)
         self.production = 10
-        self.kapital_households = 0
-        self.kapital_households_speculators = 0
+        self.kapital_households = 0 # To change in a list of the sum 
+        self.kapital_households_speculators = 0 # # To change in a list of the sum
+        self.sum_loans_households = self.n_households*loan_households
+        self.travail = 0
+        self.alpha = 0
+        self.beta = 0
 
         # Create  a bank, a firm and n household
         # self.bank = Bank(1, self) 
