@@ -1,5 +1,7 @@
 from mesa import Agent, Model
 from mesa.time import RandomActivation
+from mesa.datacollection import DataCollector
+
 from household import Household, loan_households
 from bank import Bank
 from firm import Firm
@@ -7,6 +9,13 @@ from firm import Firm
 risk_lovers_rate = 0.1
 #test
 #test2
+def increase_kapital_households(model):
+       for i in model.schedule.agents:
+           if i.risk_profile == -1:
+               model.kapital_households += i.kapital
+           else:
+               model.kapital_households_speculators += i.kapital
+       return model.kapital_households # A tej
 
 class BtcModel(Model):
     def __init__(self, n_households):
@@ -22,6 +31,9 @@ class BtcModel(Model):
         self.alpha = 0
         self.beta = 0
 
+        self.datacollector = DataCollector(
+            model_reporters={"Kapital_household": increase_kapital_households},
+            agent_reporters={"Wage": "wage"})
         # Create  a bank, a firm and n household
         # self.bank = Bank(1, self) 
         # self.schedule.add(bank)
@@ -37,26 +49,20 @@ class BtcModel(Model):
                 self.schedule.add(hp)
 
         # Create datacollector here
+        
 
         # Put variable comun of all the model too
 
-    def increase_kapital_households(self):
-        for i in self.schedule.agents:
-            if i.risk_profile == -1:
-                self.kapital_households += i.kapital
-            else:
-                self.kapital_households_speculators += i.kapital
 
 
 
 
     def step(self):
         # Tell all the agents in the model to run their step function
+        self.datacollector.collect(self)
         self.schedule.step()
-        self.increase_kapital_households()
+        increase_kapital_households(self)
         #self.bank.step()
         # Collect data
-        # self.datacollector.collect(self)
+        
 
-#tamere
-#lol
