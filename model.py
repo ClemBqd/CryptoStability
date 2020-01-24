@@ -10,12 +10,16 @@ risk_lovers_rate = 0.1
 #test
 #test2
 def increase_kapital_households(model):
-       for i in model.schedule.agents:
-           if i.risk_profile == -1:
-               model.kapital_households += i.kapital
-           else:
-               model.kapital_households_speculators += i.kapital
-       return model.kapital_households # A tej
+    kh = 0
+    khp = 0
+    for i in model.schedule.agents:
+        if i.risk_profile == -1:
+            kh += i.kapital
+            model.kapital_households.append(kh)
+        else:
+            khp += i.kapital
+            model.kapital_households_speculators.append(khp)
+       # return model.kapital_households  A tej
 
 class BtcModel(Model):
     def __init__(self, n_households):
@@ -24,8 +28,8 @@ class BtcModel(Model):
         # Chose a schedule
         self.schedule = RandomActivation(self)
         self.production = 10
-        self.kapital_households = 0 # To change in a list of the sum 
-        self.kapital_households_speculators = 0 # # To change in a list of the sum
+        self.kapital_households = [] # To change in a list of the sum 
+        self.kapital_households_speculators = [] # # To change in a list of the sum
         self.sum_loans_households = self.n_households*loan_households
         self.travail = 0
         self.alpha = 0
