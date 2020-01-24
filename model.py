@@ -6,6 +6,7 @@ from firm import Firm
 
 risk_lovers_rate = 0.1
 #test
+#test2
 
 class BtcModel(Model):
     def __init__(self, n_households):
