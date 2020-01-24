@@ -57,3 +57,4 @@ class BtcModel(Model):
         # Collect data
         # self.datacollector.collect(self)
 
+#tamere
