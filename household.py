@@ -16,10 +16,8 @@ class Household(Agent):
         self.risk_profile = risk_profile # -1 for risk_averse 1 for risk_lover and later 0 for risk_neutral
         super().__init__(unique_id, model)
         self.wage = 10 #salary month
-        self.debt = 10
         self.kapital = 0 + loan_households
         self.conso = 10
-        
         self.speculator_portfolio = 10.0 
         
     def kapital_evolution(self):
@@ -39,17 +37,20 @@ class Household(Agent):
             self.conso = techno*(self.kapital**self.model.alpha)*(self.model.travail**(1-self.model.alpha))*(1 - self.model.alpha*self.model.beta)
         else:
             self.conso = techno*((self.kapital + self.speculator_portfolio)**self.model.alpha)*(self.model.travail**(1-self.model.alpha))*(1 - self.model.alpha*self.model.beta)
-        # self.kapital -= self.conso
+        
 
     def receive_salary(self):
         self.wage = (1 - gamma)*self.model.production
-        # self.capital += self.wage
+        
         return self.wage
 
     def step(self):
         
-        self.kapital_evolution()
         self.speculator_ptf()
-        self.consumption()
         self.receive_salary()
+        self.consumption()
+        self.kapital_evolution()
+        
+        
+        
         

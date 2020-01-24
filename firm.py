@@ -9,11 +9,8 @@ class Firm(Agent):
         self.unique_id = unique_id
         super().__init__(unique_id,model)
         self.kapital = 0 + loan_firm
-        self.production = 0
-        self.wealth = 0 # = capital - debt
-        self.debt = 0
 
-    def growth(self):
+    def evolution(self):
         
         self.kapital = self.kapital*increasing_rate - loan_firm*(1 + rate_loan)
         # Add consumption of households and take of wage
@@ -21,4 +18,4 @@ class Firm(Agent):
 
     def step(self):
 
-        self.growth()
+        self.evolution()
