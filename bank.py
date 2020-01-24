@@ -1,7 +1,8 @@
 from mesa import Agent
-from household import rk
+
 
 reserve_percent = 0.1
+rk = 0.01 # deposit rate
 
 class Bank(Agent):
     def __init__(self, unique_id, model):

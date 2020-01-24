@@ -20,7 +20,7 @@ def increase_kapital_households(model):
             khp += i.kapital
             model.kapital_households_speculators.append(khp)
        # return model.kapital_households  A tej
-
+# def increase_sum_consumption_households to docomme au dessusu
 class BtcModel(Model):
     def __init__(self, n_households):
         self.n_households = n_households
@@ -31,9 +31,12 @@ class BtcModel(Model):
         self.kapital_households = [] # To change in a list of the sum 
         self.kapital_households_speculators = [] # # To change in a list of the sum
         self.sum_loans_households = self.n_households*loan_households
-        self.travail = 0
-        self.alpha = 0
-        self.beta = 0
+        self.sum_wages_households = 0
+        self.sum_consumption_households = 0 
+        self.travail = 100
+        self.alpha = 0.5
+        self.beta = 0.5
+        self.techno = 1.3 # technology factor
 
         self.datacollector = DataCollector(
             model_reporters={"Kapital_household": increase_kapital_households},
