@@ -9,6 +9,7 @@ from firm import Firm
 risk_lovers_rate = 0.1
 #test
 #test2
+
 def increase_kapital_households(model):
     kh = 0
     khp = 0
@@ -20,10 +21,14 @@ def increase_kapital_households(model):
             khp += i.kapital
             model.kapital_households_speculators.append(khp)
 
-# def increase_sum_consumption_households to docomme au dessusu
 def increase_wages_households(model):
-    for i in model.schedule.agents:
-        model.sum_wages_households += i.wage
+    households_wage = [a.wage for a in model.schedule.agents]
+    model.sum_wages_households = sum(households_wage)
+
+
+def production(model):
+    households_kapital = [a.kapital for a in model.schedule.agents]
+    model.production = model.techno*((sum(households_kapital) + model.bank.kapital + model.firm.kapital)**model.alpha)*(model.travail**(1 - model.alpha))
 
 class BtcModel(Model):
     def __init__(self, n_households):
@@ -32,8 +37,8 @@ class BtcModel(Model):
         # Chose a schedule
         self.schedule = RandomActivation(self)
         self.production = 10
-        self.kapital_households = [] # To change in a list of the sum 
-        self.kapital_households_speculators = [] # # To change in a list of the sum
+        self.kapital_households = [] 
+        self.kapital_households_speculators = []
         self.sum_loans_households = self.n_households*loan_households
         self.sum_wages_households = 0
         self.sum_consumption_households = 0 
@@ -53,7 +58,7 @@ class BtcModel(Model):
         
         #part relatives to time 
         self.datacollector = DataCollector(
-            model_reporters={"Kapital_household": increase_kapital_households},
+            model_reporters={"Production": production},
             agent_reporters={"Wage": "wage"})
 
         # Create  a bank, a firm and n household
@@ -84,13 +89,15 @@ class BtcModel(Model):
 		# self.current_datetime = support_classes.addMonth(self.current_datetime)
 		# Check if a new day passed
 		# self.time_tick(before_datetime)
+        # Collect data
         self.datacollector.collect(self)
         self.schedule.step()
         increase_wages_households(self)
         self.firm.step()
         increase_kapital_households(self)
         self.bank.step()
-        # Collect data
+        production(self)
+        
         
 
 
