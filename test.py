@@ -1,4 +1,3 @@
-
 from model import BtcModel
 import matplotlib.pyplot as plt
 import pandas
@@ -25,12 +24,17 @@ agent_wage = [a.wage for a in empty_model.schedule.agents]
 
 gini = empty_model.datacollector.get_model_vars_dataframe()
 print(gini)
-gini.plot()
-plt.show()
+# gini.plot()
+# plt.show()
 
 agent_wages = empty_model.datacollector.get_agent_vars_dataframe()
+<<<<<<< HEAD
 print(agent_wages)
 #agent_wages.head()
+=======
+agent_wages.head()
+print(agent_wages)
+>>>>>>> master
 
 
 one_agent_wage = agent_wages.xs(14, level="AgentID")

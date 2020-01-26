@@ -1,10 +1,8 @@
 from mesa import Agent
-from bank import rk
+from bank import rk, rate_loan_h
 
 ispe = 0.1 # Cours du bitcoin - à add en argument step function
 P = 0.1 #Propertion to speculate
-sp = 0.1 #To define = %of kapital speculators
-rate_loan = 0.1 # if the rate_loan is the variable that is impacted by the econimic cycle -> to put in model.py file
 gamma = 0.67 # coefficient of production
 loan_households = 100
 # self.bank ? 
@@ -17,15 +15,16 @@ class Household(Agent):
         self.wage = 10 #salary month
         self.kapital = 0 + loan_households + self.wage
         self.conso = 10
-        self.speculator_portfolio = 10.0 
+        self.speculator_portfolio = 10.0
+        self.loan = loan_households
         
     def kapital_evolution(self):
-        self.kapital = (1 - rk)*self.kapital + self.wage - self.conso - loan_households*(1 + rate_loan)
+        self.kapital = (1 - rk)*self.kapital + self.wage - self.conso - self.loan*(1 + rate_loan_h)
         
         return self.kapital
     
     def speculator_ptf(self):
-        if self.risk_profile == 1:
+        if self.risk_profile != -1:
             self.speculator_portfolio = self.speculator_portfolio*(1 + ispe) + P*self.kapital
         return self.speculator_portfolio
     

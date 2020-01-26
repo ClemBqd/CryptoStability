@@ -9,6 +9,7 @@ from firm import Firm
 risk_lovers_rate = 0.1
 #test
 #test2
+
 def increase_kapital_households(model):
     kh = 0
     khp = 0
@@ -20,7 +21,14 @@ def increase_kapital_households(model):
             khp += i.kapital
             model.kapital_households_speculators.append(khp)
 
-# def increase_sum_consumption_households to docomme au dessusu
+def increase_wages_households(model):
+    households_wage = [a.wage for a in model.schedule.agents]
+    model.sum_wages_households = sum(households_wage)
+
+
+def production(model):
+    households_kapital = [a.kapital for a in model.schedule.agents]
+    model.production = model.techno*((sum(households_kapital) + model.bank.kapital + model.firm.kapital)**model.alpha)*(model.travail**(1 - model.alpha))
 
 class BtcModel(Model):
     def __init__(self, n_households):
@@ -29,8 +37,8 @@ class BtcModel(Model):
         # Chose a schedule
         self.schedule = RandomActivation(self)
         self.production = 10
-        self.kapital_households = [] # To change in a list of the sum 
-        self.kapital_households_speculators = [] # # To change in a list of the sum
+        self.kapital_households = [] 
+        self.kapital_households_speculators = []
         self.sum_loans_households = self.n_households*loan_households
         self.sum_wages_households = 0
         self.sum_consumption_households = 0 
@@ -38,19 +46,31 @@ class BtcModel(Model):
         self.alpha = 0.5
         self.beta = 0.5
         self.techno = 1.3 # technology factor
+<<<<<<< HEAD
         self.start_datetime = datetime(2017, 1, 1,tzinfo=None)
         self.current_datetime = self.start_datetime
 
+=======
+        #self.daypassed = False
+	
+        
+        # self.monthpassed = False
+
+		# Attributes related to time
+		# self.start_datetime = datetime(2017, 1, 1, 0, 0, 0, tzinfo=None)
+		# self.current_datetime = self.start_datetime
+		# self.step_interval = "month"
+        
+>>>>>>> master
         #part relatives to time 
         self.datacollector = DataCollector(
-            model_reporters={"Kapital_household": increase_kapital_households},
+            model_reporters={"Production": production},
             agent_reporters={"Wage": "wage"})
 
         # Create  a bank, a firm and n household
-        # self.bank = Bank(1, self) 
-        # self.schedule.add(bank)
-        # firm = Firm(2, self)
-        # self.schedule.add(firm)
+        self.firm = Firm(2, self)
+        self.bank = Bank(1, self) 
+          
         x = risk_lovers_rate*self.n_households
         for i in range(self.n_households):
             if i <= x:
@@ -60,6 +80,7 @@ class BtcModel(Model):
                 hp = Household(i+2, -1, self)
                 self.schedule.add(hp)
         
+<<<<<<< HEAD
         # Put variable comun of all the model too
 
     def step(self):
@@ -70,9 +91,30 @@ class BtcModel(Model):
         self.current_datetime = addMonth(before_datetime)
 		# Check if a new day passed
         #self.time_tick(before_datetime)
+=======
+    '''
+    def time_tick(self, before_datetime):
+        if before_datetime.month != self.current_datetime.month:
+            self.monthpassed = True
+        else:
+            self.monthpassed = False
+    '''
+
+    def step(self):
+        # Tell all the agents in the model to run their step function
+        # before_datetime = self.current_datetime
+		# Update the current_datetime
+		# self.current_datetime = support_classes.addMonth(self.current_datetime)
+		# Check if a new day passed
+		# self.time_tick(before_datetime)
+        # Collect data
+>>>>>>> master
         self.datacollector.collect(self)
         self.schedule.step()
+        increase_wages_households(self)
+        self.firm.step()
         increase_kapital_households(self)
+<<<<<<< HEAD
         #self.bank.step()
         # Collect data
 
@@ -82,6 +124,11 @@ def addMonth(source):
     year = source.year + month // 12
     month = source.month % 12 + 1
     return datetime(year,month,1)
+=======
+        self.bank.step()
+        production(self)
+        
+>>>>>>> master
         
 
 
