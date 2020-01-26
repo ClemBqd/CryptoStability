@@ -19,8 +19,9 @@ def increase_kapital_households(model):
         else:
             khp += i.kapital
             model.kapital_households_speculators.append(khp)
-       # return model.kapital_households  A tej
+
 # def increase_sum_consumption_households to docomme au dessusu
+
 class BtcModel(Model):
     def __init__(self, n_households):
         self.n_households = n_households
@@ -37,10 +38,19 @@ class BtcModel(Model):
         self.alpha = 0.5
         self.beta = 0.5
         self.techno = 1.3 # technology factor
+        #self.daypassed = False
+		self.monthpassed = False
 
+		# Attributes related to time
+		self.start_datetime = datetime(2017, 1, 1, 0, 0, 0, tzinfo=None)
+		self.current_datetime = self.start_datetime
+		self.step_interval = "month"
+
+        #part relatives to time 
         self.datacollector = DataCollector(
             model_reporters={"Kapital_household": increase_kapital_households},
             agent_reporters={"Wage": "wage"})
+
         # Create  a bank, a firm and n household
         # self.bank = Bank(1, self) 
         # self.schedule.add(bank)
@@ -54,22 +64,27 @@ class BtcModel(Model):
             else:
                 hp = Household(i+2, -1, self)
                 self.schedule.add(hp)
-
-        # Create datacollector here
         
-
         # Put variable comun of all the model too
-
-
-
+    def time_tick(self, before_datetime):
+        if before_datetime.month != self.current_datetime.month:
+            self.monthpassed = True
+        else:
+            self.monthpassed = False
 
 
     def step(self):
         # Tell all the agents in the model to run their step function
+        before_datetime = self.current_datetime
+		# Update the current_datetime
+		self.current_datetime = support_classes.addMonth(self.current_datetime)
+		# Check if a new day passed
+		self.time_tick(before_datetime)
         self.datacollector.collect(self)
         self.schedule.step()
         increase_kapital_households(self)
         #self.bank.step()
         # Collect data
         
+
 
