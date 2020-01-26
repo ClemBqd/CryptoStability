@@ -12,9 +12,7 @@ class Firm(Agent):
         self.loan = loan_firm
 
     def evolution(self):
-        
         self.kapital = self.kapital*increasing_rate + self.model.sum_wages_households - self.model.sum_consumption_households - self.loan*(1 + rate_loan_f)
-        # Add consumption of households and take of wage
         return self.kapital
 
     def step(self):

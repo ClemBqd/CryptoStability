@@ -5,7 +5,6 @@ ispe = 0.1 # Cours du bitcoin - à add en argument step function
 P = 0.1 #Propertion to speculate
 gamma = 0.67 # coefficient of production
 loan_households = 100
-# self.bank ? 
 
 class Household(Agent):
     def __init__(self, unique_id, risk_profile, model):
@@ -41,7 +40,6 @@ class Household(Agent):
         return self.wage
 
     def step(self):
-        
         self.speculator_ptf()
         self.receive_salary()
         self.consumption()

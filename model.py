@@ -7,8 +7,6 @@ from bank import Bank
 from firm import Firm
 
 risk_lovers_rate = 0.1
-#test
-#test2
 
 def increase_kapital_households(model):
     kh = 0
@@ -67,24 +65,19 @@ class BtcModel(Model):
                 hp = Household(i+2, -1, self)
                 self.schedule.add(hp)
 
-        # Put variable comun of all the model too
-
     def step(self):
-        # Tell all the agents in the model to run their step function
         before_datetime = self.current_datetime
 		# Update the current_datetime
         self.current_datetime = addMonth(before_datetime)
         # Collect data
         self.datacollector.collect(self)
+        # Tell all the agents in the model to run their step function
         self.schedule.step()
         increase_wages_households(self)
         self.firm.step()
         increase_kapital_households(self)
         self.bank.step()
         production(self)
-
-        #self.bank.step()
-        # Collect data
 
 
 def addMonth(source):
