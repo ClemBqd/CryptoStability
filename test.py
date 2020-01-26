@@ -1,4 +1,3 @@
-
 from model import BtcModel
 import matplotlib.pyplot as plt
 import pandas

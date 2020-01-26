@@ -21,6 +21,9 @@ def increase_kapital_households(model):
             model.kapital_households_speculators.append(khp)
 
 # def increase_sum_consumption_households to docomme au dessusu
+def increase_wages_households(model):
+    for i in model.schedule.agents:
+        model.sum_wages_households += i.wage
 
 class BtcModel(Model):
     def __init__(self, n_households):
@@ -55,9 +58,9 @@ class BtcModel(Model):
 
         # Create  a bank, a firm and n household
         # self.bank = Bank(1, self) 
-        # self.schedule.add(bank)
-        # firm = Firm(2, self)
-        # self.schedule.add(firm)
+        
+        self.firm = Firm(2, self)
+        
         x = risk_lovers_rate*self.n_households
         for i in range(self.n_households):
             if i <= x:
@@ -84,6 +87,8 @@ class BtcModel(Model):
 		# self.time_tick(before_datetime)
         self.datacollector.collect(self)
         self.schedule.step()
+        increase_wages_households(self)
+        self.firm.step()
         increase_kapital_households(self)
         #self.bank.step()
         # Collect data
