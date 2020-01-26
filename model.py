@@ -1,7 +1,7 @@
 from mesa import Agent, Model
 from mesa.time import RandomActivation
 from mesa.datacollection import DataCollector
-
+from datetime import datetime, timedelta
 from household import Household, loan_households
 from bank import Bank
 from firm import Firm
@@ -38,13 +38,8 @@ class BtcModel(Model):
         self.alpha = 0.5
         self.beta = 0.5
         self.techno = 1.3 # technology factor
-        #self.daypassed = False
-		self.monthpassed = False
-
-		# Attributes related to time
-		self.start_datetime = datetime(2017, 1, 1, 0, 0, 0, tzinfo=None)
-		self.current_datetime = self.start_datetime
-		self.step_interval = "month"
+        self.start_datetime = datetime(2017, 1, 1,tzinfo=None)
+        self.current_datetime = self.start_datetime
 
         #part relatives to time 
         self.datacollector = DataCollector(
@@ -66,25 +61,27 @@ class BtcModel(Model):
                 self.schedule.add(hp)
         
         # Put variable comun of all the model too
-    def time_tick(self, before_datetime):
-        if before_datetime.month != self.current_datetime.month:
-            self.monthpassed = True
-        else:
-            self.monthpassed = False
-
 
     def step(self):
         # Tell all the agents in the model to run their step function
         before_datetime = self.current_datetime
+        print(before_datetime)
 		# Update the current_datetime
-		self.current_datetime = support_classes.addMonth(self.current_datetime)
+        self.current_datetime = addMonth(before_datetime)
 		# Check if a new day passed
-		self.time_tick(before_datetime)
+        #self.time_tick(before_datetime)
         self.datacollector.collect(self)
         self.schedule.step()
         increase_kapital_households(self)
         #self.bank.step()
         # Collect data
+
+
+def addMonth(source):
+    month = source.month
+    year = source.year + month // 12
+    month = source.month % 12 + 1
+    return datetime(year,month,1)
         
 
 

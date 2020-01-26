@@ -2,15 +2,16 @@
 from model import BtcModel
 import matplotlib.pyplot as plt
 import pandas
-
+from datetime import datetime, timedelta
 import matplotlib.pyplot as plt 
 from pandas import DataFrame
 
 
 empty_model = BtcModel(100)
+a=empty_model.start_datetime
 #print(empty_model.kapital_households)
 
-for i in range(2):
+while empty_model.current_datetime != datetime(2017, 5, 1, 0, 0, 0, tzinfo=None):
     empty_model.step()
 
 #agent_kapital = [a.kapital for a in empty_model.schedule.agents]
@@ -27,11 +28,13 @@ print(gini)
 gini.plot()
 plt.show()
 
-#agent_wages = empty_model.datacollector.get_agent_vars_dataframe()
+agent_wages = empty_model.datacollector.get_agent_vars_dataframe()
+print(agent_wages)
 #agent_wages.head()
 
-#one_agent_wage = agent_wages.xs(14, level="AgentID")
-#one_agent_wage.Wage.plot()
+
+one_agent_wage = agent_wages.xs(14, level="AgentID")
+one_agent_wage.Wage.plot()
 
 
 #end_wealth = agent_wages.xs(level="Step")["Wage"]
@@ -39,4 +42,4 @@ plt.show()
 
 # print(test1)
 # plt.hist(agent_kapital)
-#plt.show()
+plt.show()
