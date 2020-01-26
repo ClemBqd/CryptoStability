@@ -28,13 +28,11 @@ print(gini)
 # plt.show()
 
 agent_wages = empty_model.datacollector.get_agent_vars_dataframe()
-<<<<<<< HEAD
 print(agent_wages)
 #agent_wages.head()
-=======
+
 agent_wages.head()
 print(agent_wages)
->>>>>>> master
 
 
 one_agent_wage = agent_wages.xs(14, level="AgentID")
