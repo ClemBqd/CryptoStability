@@ -24,11 +24,12 @@ agent_wage = [a.wage for a in empty_model.schedule.agents]
 
 gini = empty_model.datacollector.get_model_vars_dataframe()
 print(gini)
-gini.plot()
-plt.show()
+# gini.plot()
+# plt.show()
 
-#agent_wages = empty_model.datacollector.get_agent_vars_dataframe()
-#agent_wages.head()
+agent_wages = empty_model.datacollector.get_agent_vars_dataframe()
+agent_wages.head()
+print(agent_wages)
 
 #one_agent_wage = agent_wages.xs(14, level="AgentID")
 #one_agent_wage.Wage.plot()
