@@ -17,4 +17,5 @@ for i in range(2):
     print("Agent wage: ", agent_wage)
     print("Sum of agent wage: ", empty_model.sum_wages_households)
     print("Kapital's firm: ", empty_model.firm.kapital)
+    print("Kapital's bank : ", empty_model.bank.kapital)
 

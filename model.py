@@ -57,10 +57,9 @@ class BtcModel(Model):
             agent_reporters={"Wage": "wage"})
 
         # Create  a bank, a firm and n household
-        # self.bank = Bank(1, self) 
-        
         self.firm = Firm(2, self)
-        
+        self.bank = Bank(1, self) 
+          
         x = risk_lovers_rate*self.n_households
         for i in range(self.n_households):
             if i <= x:
@@ -90,7 +89,7 @@ class BtcModel(Model):
         increase_wages_households(self)
         self.firm.step()
         increase_kapital_households(self)
-        #self.bank.step()
+        self.bank.step()
         # Collect data
         
 
