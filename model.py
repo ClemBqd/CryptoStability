@@ -51,6 +51,7 @@ class BtcModel(Model):
         self.beta = 0.5
         self.techno = 1.3 # technology factor
         self.gamma = 0.67 # coefficient of production applie to salaries
+        self.n = 12 
 
         self.start_datetime = datetime(2017, 1, 1,tzinfo=None)
         self.current_datetime = self.start_datetime
