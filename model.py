@@ -2,7 +2,7 @@ from mesa import Agent, Model
 from mesa.time import RandomActivation
 from mesa.datacollection import DataCollector
 from datetime import datetime, timedelta
-from household import Household, loan_households
+from household import Household
 from bank import Bank
 from firm import Firm
 
@@ -14,19 +14,24 @@ def increase_kapital_households(model):
     for i in model.schedule.agents:
         if i.risk_profile == -1:
             kh += i.kapital
-            model.kapital_households.append(kh)
         else:
-            khp += i.kapital
-            model.kapital_households_speculators.append(khp)
+            khp += i.kapital    
+    model.kapital_households.append(kh)
+    model.kapital_households_speculators.append(khp)
 
 def increase_wages_households(model):
-    households_wage = [a.wage for a in model.schedule.agents]
-    model.sum_wages_households = sum(households_wage)
+    model.sum_wages_households = 0
+    model.sum_consumption_households = 0
+    for i in model.schedule.agents:
+        model.sum_wages_households += i.wage
+        model.sum_consumption_households += i.conso
 
 
 def production(model):
-    households_kapital = [a.kapital for a in model.schedule.agents]
-    model.production = model.techno*((sum(households_kapital) + model.bank.kapital + model.firm.kapital)**model.alpha)*(model.travail**(1 - model.alpha))
+    households_k = 0
+    for i in model.schedule.agents:
+        households_k += i.kapital
+    model.production = model.techno*((households_k + model.bank.kapital + model.firm.kapital)**model.alpha)*(model.travail**(1 - model.alpha))
     return model.production
 
 class BtcModel(Model):
@@ -38,13 +43,13 @@ class BtcModel(Model):
         self.production = 0
         self.kapital_households = [] 
         self.kapital_households_speculators = []
-        self.sum_loans_households = self.n_households*loan_households
         self.sum_wages_households = 0
         self.sum_consumption_households = 0 
         self.travail = 100
         self.alpha = 0.5
         self.beta = 0.5
         self.techno = 1.3 # technology factor
+        self.gamma = 0.67 # coefficient of production applie to salaries
 
         self.start_datetime = datetime(2017, 1, 1,tzinfo=None)
         self.current_datetime = self.start_datetime
@@ -65,9 +70,10 @@ class BtcModel(Model):
             else:
                 hp = Household(i+2, -1, self)
                 self.schedule.add(hp)
-        #Init production with kapital initialisation of agents
+        
+        #Init production with kapital initialisation of agents and give loans
         production(self)
-        #Call loan
+        self.bank.give_loan()
 
     def step(self):
         before_datetime = self.current_datetime

@@ -1,6 +1,4 @@
 from mesa import Agent
-from bank import gamma
-
 
 reserve_percent = 0.1
 rk = 0.01 # deposit rate of households
@@ -12,12 +10,17 @@ class Bank(Agent):
         self.unique_id = unique_id
         super().__init__(unique_id, model)
         self.kapital = 3500
-        #self.kapital = - model.sum_loans_households - model.firm.loan
+        
 
-    def give_loan(self, n_househols):
-        loan_households = ((1 - gamma)*self.model.production)*5 
+    def give_loan(self):
+        loan_households = ((1 - self.model.gamma)*self.model.production)*5
+        self.model.firm.loan = 0.5*self.model.firm.kapital
+        self.model.firm.kapital += self.model.firm.loan
+        self.kapital -= self.model.firm.loan
         for i in self.model.schedule.agents:
-            i.kapital -= loan_households
+            i.kapital += loan_households
+            i.loan = loan_households
+            self.kapital -= loan_households
         
     def evolution(self):
         self.kapital += self.model.kapital_households[-1] - rk*self.model.kapital_households[-2] + self.model.kapital_households_speculators[-1] - rk*self.model.kapital_households_speculators[-2] + self.model.sum_loans_households*(1 - rate_loan_h) + self.model.firm.loan*(1 - rate_loan_f)
