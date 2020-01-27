@@ -27,6 +27,7 @@ def increase_wages_households(model):
 def production(model):
     households_kapital = [a.kapital for a in model.schedule.agents]
     model.production = model.techno*((sum(households_kapital) + model.bank.kapital + model.firm.kapital)**model.alpha)*(model.travail**(1 - model.alpha))
+    return model.production
 
 class BtcModel(Model):
     def __init__(self, n_households):
@@ -34,7 +35,7 @@ class BtcModel(Model):
         super().__init__()
         # Chose a schedule
         self.schedule = RandomActivation(self)
-        self.production = 10
+        self.production = 0
         self.kapital_households = [] 
         self.kapital_households_speculators = []
         self.sum_loans_households = self.n_households*loan_households
@@ -64,6 +65,9 @@ class BtcModel(Model):
             else:
                 hp = Household(i+2, -1, self)
                 self.schedule.add(hp)
+        #Init production with kapital initialisation of agents
+        production(self)
+        #Call loan
 
     def step(self):
         before_datetime = self.current_datetime
@@ -78,8 +82,7 @@ class BtcModel(Model):
         increase_kapital_households(self)
         self.bank.step()
         production(self)
-
-
+    
 def addMonth(source):
     month = source.month
     year = source.year + month // 12

@@ -15,11 +15,11 @@ class Household(Agent):
         self.unique_id = unique_id
         self.risk_profile = risk_profile # -1 for risk_averse 1 for risk_lover and later 0 for risk_neutral
         super().__init__(unique_id, model)
-        self.wage = 10 #salary month
-        self.kapital = 0 + loan_households + self.wage
-        self.conso = 10
-        self.speculator_portfolio = 10.0
-        self.loan = loan_households
+        self.wage = 0 #salary month
+        self.kapital = 7,50
+        self.conso = 0
+        self.speculator_portfolio = 1
+        self.loan = 1
         
     def kapital_evolution(self):
         self.kapital = (1 - rk)*self.kapital + self.wage - self.conso - self.loan*(1 + rate_loan_h)
