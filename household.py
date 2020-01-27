@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 from datetime import datetime, timedelta
 
-ispe = 0.1 # Cours du bitcoin - à add en argument step function
+
 P = 0.1 #Propertion to speculate
 gamma = 0.67 # coefficient of production
 loan_households = 100
@@ -29,7 +29,7 @@ class Household(Agent):
     def speculator_ptf(self):
 
         if self.risk_profile != -1:
-            self.speculator_portfolio = self.speculator_portfolio*(1 +df3['variation'][df3.loc[df3['Date'] == self.model.current_datetime.strftime("%d-%m-%Y")].index.item()]) + P*self.kapital
+            self.speculator_portfolio = self.speculator_portfolio*(1 +df3['variation'][df3.loc[df3['Date'] == self.model.current_datetime].index.item()]) + P*self.kapital
         return self.speculator_portfolio
     
     def consumption(self):
