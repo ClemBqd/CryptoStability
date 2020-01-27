@@ -45,6 +45,7 @@ class BtcModel(Model):
         self.kapital_households_speculators = []
         self.sum_wages_households = 0
         self.sum_consumption_households = 0 
+        self.sum_loans_households = 0
         self.travail = 100
         self.alpha = 0.5
         self.beta = 0.5
