@@ -10,15 +10,15 @@ empty_model = BtcModel(100)
 a=empty_model.start_datetime
 #print(empty_model.kapital_households)
 
-while empty_model.current_datetime != datetime(2017, 5, 1, 0, 0, 0, tzinfo=None):
+while empty_model.current_datetime != datetime(2017,10, 1, 0, 0, 0, tzinfo=None):
     empty_model.step()
 
 #agent_kapital = [a.kapital for a in empty_model.schedule.agents]
-agent_wage = [a.wage for a in empty_model.schedule.agents]
+agent_wage = [a.speculator_portfolio for a in empty_model.schedule.agents]
 #test1 = empty_model.bank.deposits
 
 #print(agent_kapital)
-#print(agent_wage)
+print(agent_wage)
 #print(empty_model.kapital_households)
 #print(empty_model.kapital_households_speculators)
 
