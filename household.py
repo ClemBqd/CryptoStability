@@ -8,7 +8,7 @@ from datetime import datetime, timedelta
 df3 = pd.read_excel('pfebtc.xltx') 
 
 class Household(Agent):
-    def __init__(self, unique_id, risk_profile, model, P):
+    def __init__(self, unique_id, risk_profile, P, model):
         self.unique_id = unique_id
         self.risk_profile = risk_profile # -1 for risk_averse 2 for risk_high and 1 for risk_medium 0 for risk_low
         self.P = P # Propertion to speculate
