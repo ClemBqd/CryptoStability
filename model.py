@@ -73,10 +73,10 @@ class BtcModel(Model):
             if i <= xh:
                 h = Household(i+2, 2, 0.45, self)
                 self.schedule.add(h)
-            elif i <= xm:
+            elif i > xh and i <= xm:
                 h = Household(i+2, 1, 0.2, self)
                 self.schedule.add(h)
-            elif i <= xl:
+            elif i > xm and i <= xl:
                 h = Household(i+2, 0, 0.2, self)
                 self.schedule.add(h)
             else:
