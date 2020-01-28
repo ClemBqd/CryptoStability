@@ -11,7 +11,7 @@ print(empty_model.production)
 
 print(empty_model.firm.kapital)
 
-for i in range(2):
+for i in range(20):
     empty_model.step()
     agent_wage = [a.wage for a in empty_model.schedule.agents]
     households_loans = [a.loan for a in empty_model.schedule.agents]

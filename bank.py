@@ -26,7 +26,7 @@ class Bank(Agent):
     def evolution(self):
         kh = len(self.model.kapital_households)
         khp = len(self.model.kapital_households_speculators)
-        self.kapital += self.model.kapital_households[kh-1] - rk*self.model.kapital_households[kh-2] + self.model.kapital_households_speculators[khp-1] - rk*self.model.kapital_households_speculators[khp-2] + self.model.sum_loans_households*(1/(self.model.n)*3 + rate_loan_h/self.model.n) + self.model.firm.loan*(1/(self.model.n*3) + rate_loan_f/self.model.n)
+        self.kapital = self.model.kapital_households[kh-1] - (rk/self.model.n)*self.model.kapital_households[kh-2] + self.model.kapital_households_speculators[khp-1] - (rk/self.model.n)*self.model.kapital_households_speculators[khp-2] + self.model.sum_loans_households*(1/(self.model.n)*3 + rate_loan_h/self.model.n) + self.model.firm.loan*(1/(self.model.n*3) + rate_loan_f/self.model.n)
 
     def step(self):
         self.evolution()
