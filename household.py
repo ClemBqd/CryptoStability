@@ -20,7 +20,7 @@ class Household(Agent):
         self.loan = 0 
         
     def kapital_evolution(self):
-        self.kapital = (1 + rk/self.model.n)*self.kapital + self.wage - self.conso - self.loan*(1 + rate_loan_h)/self.model.n
+        self.kapital = (1 + rk/self.model.n)*self.kapital + self.wage - self.conso - self.loan/(3*self.model.n)- self.loan*rate_loan_h/self.model.n
         return self.kapital
     
     def speculator_ptf(self):
