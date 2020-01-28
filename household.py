@@ -20,7 +20,10 @@ class Household(Agent):
         self.loan = 0 
         
     def kapital_evolution(self):
-        self.kapital = (1 + rk/self.model.n)*self.kapital + self.wage - self.conso - self.loan/(3*self.model.n)- self.loan*rate_loan_h/self.model.n
+        if self.risk_profile != -1:
+            self.kapital = (1 + rk/self.model.n)*self.kapital + self.wage - self.conso - self.loan/(3*self.model.n)- self.loan*rate_loan_h/self.model.n+(1 + rk/self.model.n)*
+        else:    
+            self.kapital = (1 + rk/self.model.n)*self.kapital + self.wage - self.conso - self.loan/(3*self.model.n)- self.loan*rate_loan_h/self.model.n
         return self.kapital
     
     def speculator_ptf(self):
@@ -32,7 +35,7 @@ class Household(Agent):
         if self.risk_profile == -1:
             self.conso = self.model.techno*(self.kapital**self.model.alpha)*(self.model.travail**(1-self.model.alpha))*(1 - self.model.alpha*self.model.beta)
         else:
-            self.conso = self.model.techno*((self.kapital + self.speculator_portfolio)**self.model.alpha)*(self.model.travail**(1-self.model.alpha))*(1 - self.model.alpha*self.model.beta)
+            self.conso = self.model.techno*((self.kapital)**self.model.alpha)*(self.model.travail**(1-self.model.alpha))*(1 - self.model.alpha*self.model.beta)
         
     def receive_salary(self):
         self.wage = (1 - self.model.gamma)*self.model.production
