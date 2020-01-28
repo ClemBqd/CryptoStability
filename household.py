@@ -10,7 +10,7 @@ df3 = pd.read_excel('pfebtc.xltx')
 class Household(Agent):
     def __init__(self, unique_id, risk_profile, model, P):
         self.unique_id = unique_id
-        self.risk_profile = risk_profile # -1 for risk_averse 1 for risk_lover and later 0 for risk_neutral
+        self.risk_profile = risk_profile # -1 for risk_averse 2 for risk_high and 1 for risk_medium 0 for risk_low
         self.P = P # Propertion to speculate
         super().__init__(unique_id, model)
         self.wage = 0 #salary month

@@ -6,7 +6,9 @@ from household import Household
 from bank import Bank
 from firm import Firm
 
-risk_lovers_rate = 0.1
+risk_high_rate = 0.1
+risk_medium_rate = 0.2
+risk_low_rate = 0.2
 
 def increase_kapital_households(model):
     kh = 0
@@ -64,14 +66,22 @@ class BtcModel(Model):
         self.firm = Firm(2, self)
         self.bank = Bank(1, self) 
           
-        x = risk_lovers_rate*self.n_households
+        xh = risk_high_rate*self.n_households
+        xm = xh + risk_medium_rate*self.n_households
+        xl = xh + risk_low_rate*self.n_households
         for i in range(self.n_households):
-            if i <= x:
-                h = Household(i+2, 1, self)
+            if i <= xh:
+                h = Household(i+2, 2, 0.45, self)
+                self.schedule.add(h)
+            elif i <= xm:
+                h = Household(i+2, 1, 0.2, self)
+                self.schedule.add(h)
+            elif i <= xl:
+                h = Household(i+2, 0, 0.2, self)
                 self.schedule.add(h)
             else:
-                hp = Household(i+2, -1, self)
-                self.schedule.add(hp)
+                h = Household(i+2, -1, 0, self)
+                self.schedule.add(h)
         
         #Init production with kapital initialisation of agents and give loans
         production(self)
