@@ -68,16 +68,16 @@ class BtcModel(Model):
           
         xh = risk_high_rate*self.n_households
         xm = xh + risk_medium_rate*self.n_households
-        xl = xh + risk_low_rate*self.n_households
+        xl = xm + risk_low_rate*self.n_households
         for i in range(self.n_households):
-            if i <= xh:
+            if i < xh:
                 h = Household(i+2, 2, 0.45, self)
                 self.schedule.add(h)
-            elif i <= xm:
+            elif i >= xh and i < xm:
                 h = Household(i+2, 1, 0.2, self)
                 self.schedule.add(h)
-            elif i <= xl:
-                h = Household(i+2, 0, 0.2, self)
+            elif i >= xm and i < xl:
+                h = Household(i+2, 0, 0.05, self)
                 self.schedule.add(h)
             else:
                 h = Household(i+2, -1, 0, self)
