@@ -17,7 +17,6 @@ while empty_model.current_datetime != datetime(2019,12,1,tzinfo=None):
 #agent_kapital = [a.kapital for a in empty_model.schedule.agents]
 agent_wage = [a.speculator_portfolio for a in empty_model.schedule.agents]
 #test1 = empty_model.bank.deposits
-
 #print(agent_kapital)
 print(agent_wage)
 #print(empty_model.kapital_households)

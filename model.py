@@ -27,7 +27,7 @@ def increase_wages_households(model):
     for i in model.schedule.agents:
         model.sum_wages_households += i.wage
         model.sum_consumption_households += i.conso
-
+    return model.sum_wages_households
 
 def production(model):
     households_k = 0
@@ -59,9 +59,10 @@ class BtcModel(Model):
         self.current_datetime = self.start_datetime
 
         self.datacollector = DataCollector(
-            model_reporters={"Production": production},
+            model_reporters={"Production": production,
+                            "sum_wage":increase_wages_households},
             agent_reporters={"Wage": "wage"})
-
+        
         # Create  a bank, a firm and n household
         self.firm = Firm(2, self)
         self.bank = Bank(1, self) 
