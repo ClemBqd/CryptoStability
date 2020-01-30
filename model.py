@@ -62,6 +62,7 @@ class BtcModel(Model):
             model_reporters={"Production": production,
                             "sum_wage":increase_wages_households},
             agent_reporters={"Wage": "wage"})
+        self.running = True
         
         # Create  a bank, a firm and n household
         self.firm = Firm(2, self)
@@ -108,8 +109,7 @@ def addMonth(source):
     month = source.month % 12 + 1
     return datetime(year,month,1)
 
-        
-        
+
         
 
 
