@@ -53,11 +53,25 @@ def get_kapital_h(model):
             model.sum_speculator_portfolio += i.speculator_portfolio
         else:
             model.kh += i.kapital
+def graph_households_kapital(model):
+    for i in range(model.n_households):
+        if i >= 3:
+            return model.schedule.agents[i].kapital
 
+def graph_households_wage(model):
+    for i in range(model.n_households):
+        if i >= 3:    
+            return model.schedule.agents[i].wage
 
 def evolution_kapital_global(model):
     model.kapital_global = (1 + rk/model.n)*(P0*model.kh_low + P1*model.kh_medium + P2*model.kh_high + model.kh) + model.sum_wages_households - model.sum_consumption_households + model.sum_speculator_portfolio - model.sum_loans_households*rate_loan_h/model.n 
     return model.kapital_global
+
+def graph_kapital_bank(model):
+    return model.bank.kapital
+
+def graph_kapital_firm(model):
+    return model.firm.kapital
 
 class BtcModel(Model):
     def __init__(self, n_households):
@@ -90,7 +104,11 @@ class BtcModel(Model):
         self.datacollector = DataCollector(
             model_reporters={"Production": production,
                             "KapitalG": evolution_kapital_global,
-                            "sum_wage":increase_wages_households},
+                            "KapitalH": graph_households_kapital,
+                            "WagesH" : graph_households_kapital,
+                            "sum_wage":increase_wages_households,
+                            "KapitalF": graph_kapital_firm,
+                            "KapitalB": graph_kapital_bank},
             agent_reporters={"Wage": "wage"})
         self.running = True
         
