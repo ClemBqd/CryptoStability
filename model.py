@@ -39,7 +39,7 @@ def production(model):
     model.production = model.techno*((households_k + model.bank.kapital + model.firm.kapital)**model.alpha)*(model.travail**(1 - model.alpha))
     return model.production
 
-def get_kapital_h_speculator(model):
+def get_kapital_h(model):
     model.sum_speculator_portfolio = 0
     for i in model.schedule.agents:
         if i.P == P0:
@@ -130,7 +130,7 @@ class BtcModel(Model):
         increase_wages_households(self)
         self.firm.step()
         increase_kapital_households(self)
-        get_kapital_h_speculator(self)
+        get_kapital_h(self)
         evolution_kapital_global(self)
         self.bank.step()
         production(self)
