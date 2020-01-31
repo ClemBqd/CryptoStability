@@ -4,7 +4,6 @@ import numpy as np
 import pandas as pd
 from datetime import datetime, timedelta
 
-
 df3 = pd.read_excel('pfebtc.xlsx') 
 
 class Household(Agent):

@@ -22,6 +22,7 @@ class Bank(Agent):
             i.loan = loan_households
             self.model.sum_loans_households += loan_households
             self.kapital -= loan_households
+            self.model.kapital_global -= loan_households 
         
     def evolution(self):
         kh = len(self.model.kapital_households)

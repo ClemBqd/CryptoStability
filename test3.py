@@ -19,4 +19,8 @@ for i in range(20):
 
 #gini = empty_model.datacollector.get_model_vars_dataframe()
 #print(gini)
-gini=empty_model.data_collector.model_vars["Production"][-1]
+#gini=empty_model.datacollector.model_vars["Production"][-1]
+#print(gini)
+print("Kapital Global: ", empty_model.kapital_global)
+gini=empty_model.datacollector.model_vars["KapitalG"][-1]
+print(gini)

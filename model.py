@@ -3,12 +3,15 @@ from mesa.time import RandomActivation
 from mesa.datacollection import DataCollector
 from datetime import datetime, timedelta
 from household import Household
-from bank import Bank
+from bank import Bank, rate_loan_h, rk
 from firm import Firm
 
 risk_high_rate = 0.1
 risk_medium_rate = 0.2
 risk_low_rate = 0.2
+P2 = 0.45 # propension to speculate risk high
+P1 = 0.2 # risk medium
+P0 = 0.05 # risk low
 
 def increase_kapital_households(model):
     kh = 0
@@ -36,6 +39,26 @@ def production(model):
     model.production = model.techno*((households_k + model.bank.kapital + model.firm.kapital)**model.alpha)*(model.travail**(1 - model.alpha))
     return model.production
 
+def get_kapital_h_speculator(model):
+    model.sum_speculator_portfolio = 0
+    for i in model.schedule.agents:
+        if i.P == P0:
+            model.kh_low += i.kapital
+            model.sum_speculator_portfolio += i.speculator_portfolio
+        elif i.P == P1:
+            model.kh_medium += i.kapital
+            model.sum_speculator_portfolio += i.speculator_portfolio
+        elif i.P == P2:
+            model.kh_high += i.kapital
+            model.sum_speculator_portfolio += i.speculator_portfolio
+        else:
+            model.kh += i.kapital
+
+
+def evolution_kapital_global(model):
+    model.kapital_global = (1 + rk/model.n)*(P0*model.kh_low + P1*model.kh_medium + P2*model.kh_high + model.kh) + model.sum_wages_households - model.sum_consumption_households + model.sum_speculator_portfolio - model.sum_loans_households*rate_loan_h/model.n 
+    return model.kapital_global
+
 class BtcModel(Model):
     def __init__(self, n_households):
         self.n_households = n_households
@@ -45,6 +68,12 @@ class BtcModel(Model):
         self.production = 0
         self.kapital_households = [] 
         self.kapital_households_speculators = []
+        self.kapital_global = 7.5*n_households
+        self.kh_high = 0
+        self.kh_medium = 0
+        self.kh_low = 0
+        self.kh = 0
+        self.sum_speculator_portfolio = 0
         self.sum_wages_households = 0
         self.sum_consumption_households = 0 
         self.sum_loans_households = 0
@@ -60,6 +89,7 @@ class BtcModel(Model):
 
         self.datacollector = DataCollector(
             model_reporters={"Production": production,
+                            "KapitalG": evolution_kapital_global,
                             "sum_wage":increase_wages_households},
             agent_reporters={"Wage": "wage"})
         self.running = True
@@ -73,13 +103,13 @@ class BtcModel(Model):
         xl = xm + risk_low_rate*self.n_households
         for i in range(self.n_households):
             if i < xh:
-                h = Household(i+2, 2, 0.45, self)
+                h = Household(i+2, 2, P2, self)
                 self.schedule.add(h)
             elif i >= xh and i < xm:
-                h = Household(i+2, 1, 0.2, self)
+                h = Household(i+2, 1, P1, self)
                 self.schedule.add(h)
             elif i >= xm and i < xl:
-                h = Household(i+2, 0, 0.05, self)
+                h = Household(i+2, 0, P0, self)
                 self.schedule.add(h)
             else:
                 h = Household(i+2, -1, 0, self)
@@ -100,6 +130,8 @@ class BtcModel(Model):
         increase_wages_households(self)
         self.firm.step()
         increase_kapital_households(self)
+        get_kapital_h_speculator(self)
+        evolution_kapital_global(self)
         self.bank.step()
         production(self)
     
@@ -108,8 +140,6 @@ def addMonth(source):
     year = source.year + month // 12
     month = source.month % 12 + 1
     return datetime(year,month,1)
-
-
         
 
 
