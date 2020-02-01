@@ -34,7 +34,7 @@ class Household(Agent):
         self.conso = self.model.techno*((self.kapital)**self.model.alpha)*((self.model.travail/self.model.n_households)**(1-self.model.alpha))*(1 - self.model.alpha*self.model.beta)
         
     def receive_salary(self):
-        self.wage = (1 - self.model.gamma)*self.model.production
+        self.wage = (1 - self.model.gamma)*self.model.production/self.model.n_households
         return self.wage
     
 

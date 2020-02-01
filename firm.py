@@ -1,7 +1,7 @@
 from mesa import Agent
 from bank import rate_loan_f
 
-increasing_rate = 2.5
+increasing_rate = 2.5/100 #pourcentage surement 
 
 class Firm(Agent):
     def __init__(self, unique_id, model):

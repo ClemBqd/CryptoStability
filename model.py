@@ -36,7 +36,7 @@ def production(model):
     households_k = 0
     for i in model.schedule.agents:
         households_k += i.kapital
-    model.production = model.techno*((households_k + model.bank.kapital + model.firm.kapital)**model.alpha)*(model.travail**(1 - model.alpha))
+    model.production = model.techno*((model.firm.kapital+ households_k + model.bank.kapital)**model.alpha)*(model.travail**(1 - model.alpha)) #households_k + model.bank.kapital
     return model.production
 
 def get_kapital_h(model):
@@ -53,6 +53,7 @@ def get_kapital_h(model):
             model.sum_speculator_portfolio += i.speculator_portfolio
         else:
             model.kh += i.kapital
+
 def graph_households_kapital(model):
     for i in range(model.n_households):
         if i >= 3:
@@ -91,7 +92,7 @@ class BtcModel(Model):
         self.sum_wages_households = 0
         self.sum_consumption_households = 0 
         self.sum_loans_households = 0
-        self.travail = 100
+        self.travail = 1000
         self.alpha = 0.5
         self.beta = 0.5
         self.techno = 1.3 # technology factor
@@ -108,7 +109,8 @@ class BtcModel(Model):
                             "WagesH" : graph_households_kapital,
                             "sum_wage":increase_wages_households,
                             "KapitalF": graph_kapital_firm,
-                            "KapitalB": graph_kapital_bank},
+                            "KapitalB": graph_kapital_bank,
+                            "diff": diff},
             agent_reporters={"Wage": "wage"})
         self.running = True
         
@@ -160,4 +162,10 @@ def addMonth(source):
     return datetime(year,month,1)
         
 
-
+def diff(model):
+    model.sum_wages_households = 0
+    model.sum_consumption_households = 0
+    for i in model.schedule.agents:
+        model.sum_wages_households += i.wage
+        model.sum_consumption_households += i.conso
+    return model.sum_wages_households-model.sum_consumption_households
