@@ -1,4 +1,4 @@
-#from server import server
+from server import server
 
-#server.port = 8521
-#server.launch()
+server.port = 8522
+server.launch()

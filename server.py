@@ -14,7 +14,7 @@ kapital_households_chart = ChartModule([{"Label" : "KapitalH",
                                                 "Color": "Blue"}],
                                                 data_collector_name="datacollector") 
 
-wage_households_chart = ChartModule([{"Label" : "WageH",
+wage_households_chart = ChartModule([{"Label" : "WagesH",
                                                 "Color": "Black"}],
                                                 data_collector_name="datacollector") 
 
@@ -40,5 +40,5 @@ server = ModularServer(BtcModel,
          "Btc Model",
          {"n_households":20})
 
-server.port = 8523 #The default
-server.launch()
+#server.port = 8523 #The default
+#server.launch()
