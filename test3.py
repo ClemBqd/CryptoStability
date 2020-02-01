@@ -17,7 +17,9 @@ for i in range(20):
 households_kapital = [a.kapital for a in empty_model.schedule.agents]
 print(households_kapital)
 print("Sum Households", sum(households_kapital))
-
+households_speculator = [a.speculator_portfolio for a in empty_model.schedule.agents]
+print("Sum speculator portfolio: ", sum(households_speculator))
+print("Empty model sump_portofolio :", empty_model.sum_speculator_portfolio)
 #gini = empty_model.datacollector.get_model_vars_dataframe()
 #print(gini)
 #gini=empty_model.datacollector.model_vars["Production"][-1]

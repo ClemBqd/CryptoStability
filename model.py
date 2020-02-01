@@ -65,7 +65,7 @@ def graph_households_wage(model):
             return model.schedule.agents[i].wage
 
 def evolution_kapital_global(model):
-    model.kapital_global = (1 + rk/model.n)*(P0*model.kh_low + P1*model.kh_medium + P2*model.kh_high + model.kh) + model.sum_wages_households - model.sum_consumption_households + model.sum_speculator_portfolio - model.sum_loans_households/(3*model.n)- model.sum_loans_households*rate_loan_h/model.n 
+    model.kapital_global = (1 + rk/model.n)*(model.kh_low + model.kh_medium + model.kh_high + model.kh) + model.sum_wages_households - model.sum_consumption_households + model.sum_speculator_portfolio - model.sum_loans_households/(3*model.n)- model.sum_loans_households*rate_loan_h/model.n 
     return model.kapital_global
 
 def graph_kapital_bank(model):
