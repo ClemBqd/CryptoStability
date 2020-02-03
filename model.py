@@ -65,7 +65,7 @@ def graph_households_wage(model):
             return model.schedule.agents[i].wage
 
 def evolution_kapital_global(model):
-    model.kapital_global = (1 + rk/model.n)*(model.kh_low + model.kh_medium + model.kh_high + model.kh) + model.sum_wages_households - model.sum_consumption_households + model.sum_speculator_portfolio - model.sum_loans_households/(3*model.n)- model.sum_loans_households*rate_loan_h/model.n 
+    model.kapital_global = (1 + rk/model.n)*(model.kh_low*P0 + model.kh_medium*P1 + model.kh_high*P2 + model.kh) + model.sum_wages_households - model.sum_consumption_households + model.sum_speculator_portfolio - model.sum_loans_households/(3*model.n)- model.sum_loans_households*rate_loan_h/model.n 
     return model.kapital_global
 
 def graph_kapital_bank(model):
@@ -146,12 +146,12 @@ class BtcModel(Model):
         # Collect data
         self.datacollector.collect(self)
         # Tell all the agents in the model to run their step function
+        evolution_kapital_global(self)
         self.schedule.step()
         increase_wages_households(self)
         self.firm.step()
         increase_kapital_households(self)
         get_kapital_h(self)
-        evolution_kapital_global(self)
         self.bank.step()
         production(self)
     

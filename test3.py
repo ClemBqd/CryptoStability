@@ -10,7 +10,7 @@ from mesa.visualization.ModularVisualization import ModularServer
 from mesa.visualization.modules import ChartModule
 
 empty_model = BtcModel(10)
-
+print(empty_model.kapital_global)
 for i in range(20):
     empty_model.step()
 
