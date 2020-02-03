@@ -41,6 +41,10 @@ def production(model):
 
 def get_kapital_h(model):
     model.sum_speculator_portfolio = 0
+    model.kh = 0
+    model.kh_high = 0
+    model.kh_medium = 0
+    model.kh_low = 0
     for i in model.schedule.agents:
         if i.P == P0:
             model.kh_low += i.kapital
@@ -145,13 +149,13 @@ class BtcModel(Model):
         self.current_datetime = addMonth(before_datetime)
         # Collect data
         self.datacollector.collect(self)
-        # Tell all the agents in the model to run their step function
+        get_kapital_h(self)
         evolution_kapital_global(self)
+        # Tell all the agents in the model to run their step function
         self.schedule.step()
         increase_wages_households(self)
         self.firm.step()
         increase_kapital_households(self)
-        get_kapital_h(self)
         self.bank.step()
         production(self)
     
