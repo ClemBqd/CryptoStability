@@ -16,17 +16,10 @@ print(empty_model.kh_high)
 print(empty_model.kh_medium)
 print(empty_model.kh_low)
 print("--------------------------")
-for i in range(5):
+
+for i in range(10):
     empty_model.step()
-    households_kapital = [a.kapital for a in empty_model.schedule.agents]
-    print(households_kapital)
-    print("Sum Households", sum(households_kapital))
-    print(empty_model.kapital_global)
-    print("--------------------------")
-    print(empty_model.kh)
-    print(empty_model.kh_high)
-    print(empty_model.kh_medium)
-    print(empty_model.kh_low)
+    
 
 households_kapital = [a.kapital for a in empty_model.schedule.agents]
 print(households_kapital)
