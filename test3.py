@@ -10,11 +10,12 @@ from mesa.visualization.ModularVisualization import ModularServer
 from mesa.visualization.modules import ChartModule
 
 empty_model = BtcModel(10)
-print(empty_model.kapital_global)
-print(empty_model.kh)
-print(empty_model.kh_high)
-print(empty_model.kh_medium)
-print(empty_model.kh_low)
+print(empty_model.sum_loans_households)
+print("KapitalG: ",empty_model.kapital_global)
+households_loan = [a.loan for a in empty_model.schedule.agents]
+print(households_loan)
+print(sum(households_loan))
+
 print("--------------------------")
 
 for i in range(10):
