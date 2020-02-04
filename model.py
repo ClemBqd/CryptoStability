@@ -5,6 +5,7 @@ from datetime import datetime, timedelta
 from household import Household
 from bank import Bank, rate_loan_h, rk
 from firm import Firm
+import pandas as pd
 
 risk_high_rate = 0.1
 risk_medium_rate = 0.2
@@ -79,8 +80,9 @@ def graph_kapital_firm(model):
     return model.firm.kapital
 
 class BtcModel(Model):
-    def __init__(self, n_households):
+    def __init__(self, n_households, df3):
         self.n_households = n_households
+        self.df3 = pd.read_excel(df3)
         super().__init__()
         # Chose a schedule
         self.schedule = RandomActivation(self)
@@ -150,9 +152,9 @@ class BtcModel(Model):
         # Collect data
         self.datacollector.collect(self)
         get_kapital_h(self)
-        evolution_kapital_global(self)
         # Tell all the agents in the model to run their step function
         self.schedule.step()
+        evolution_kapital_global(self)
         increase_wages_households(self)
         self.firm.step()
         increase_kapital_households(self)
@@ -173,3 +175,25 @@ def diff(model):
         model.sum_wages_households += i.wage
         model.sum_consumption_households += i.conso
     return model.sum_wages_households-model.sum_consumption_households
+
+class SinuModel(BtcModel):
+    def __init__(self, n_households, df3, list_kapital_global):
+        BtcModel.__init__(self, n_households, df3)
+        self.list_kapital_global = list_kapital_global
+    
+    def step(self):
+        before_datetime = self.current_datetime
+		# Update the current_datetime
+        self.current_datetime = addMonth(before_datetime)
+        # Collect data
+        self.datacollector.collect(self)
+        get_kapital_h(self)
+        # Tell all the agents in the model to run their step function
+        self.schedule.step()
+        evolution_kapital_global(self)
+        increase_wages_households(self)
+        self.firm.step()
+        increase_kapital_households(self)
+        self.bank.step()
+        production(self)
+     

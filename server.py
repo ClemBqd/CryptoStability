@@ -38,7 +38,7 @@ diff1 = ChartModule([{"Label" : "diff",
 server = ModularServer(BtcModel,
         [kapital_households_global_chart, Product, kapital_households_chart, wage_households_chart, wage_households_sum_chart, kapital_firm_chart, kapital_bank_chart,diff1],
          "Btc Model",
-         {"n_households":20})
+         {"n_households":20, "df3": 'pfebtc.xlsx'})
 
 #server.port = 8523 #The default
 #server.launch()
