@@ -1,4 +1,4 @@
-from model import BtcModel
+from model import BtcModel, SinuModel
 from mesa.visualization.ModularVisualization import ModularServer
 from mesa.visualization.modules import ChartModule
 
@@ -40,5 +40,10 @@ server = ModularServer(BtcModel,
          "Btc Model",
          {"n_households":20, "df3": 'pfebtc.xlsx'})
 
+
+server2 = ModularServer(SinuModel,
+                        [kapital_households_global_chart],
+                        "SinuModel",
+                        {"n_households":20, "df3": 'pfebtc.xlsx', "list_kapital_global": server.kapital_global_btcModel})
 #server.port = 8523 #The default
 #server.launch()

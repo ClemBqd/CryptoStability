@@ -71,6 +71,7 @@ def graph_households_wage(model):
 
 def evolution_kapital_global(model):
     model.kapital_global = (1 + rk/model.n)*(model.kh_low*(1-P0) + model.kh_medium*(1-P1) + model.kh_high*(1-P2) + model.kh) + model.sum_wages_households - model.sum_consumption_households + model.sum_speculator_portfolio - model.sum_loans_households/(3*model.n)- model.sum_loans_households*rate_loan_h/model.n 
+    model.kapital_global_btcModel.append(model.kapital_global)
     return model.kapital_global
 
 def graph_kapital_bank(model):
@@ -90,6 +91,7 @@ class BtcModel(Model):
         self.kapital_households = [] 
         self.kapital_households_speculators = []
         self.kapital_global = 7.5*n_households
+        self.kapital_global_btcModel = []
         self.kh_high = 0
         self.kh_medium = 0
         self.kh_low = 0
