@@ -3,13 +3,13 @@ from mesa import Agent
 reserve_percent = 0.1
 rk = 0.01 # deposit rate of households
 rate_loan_f = 0.005 # rate loan of firm
-rate_loan_h = 0.0075 # rate loan of households
+rate_loan_h = 0.01 # rate loan of households
 
 class Bank(Agent):
     def __init__(self, unique_id, model):
         self.unique_id = unique_id
         super().__init__(unique_id, model)
-        self.kapital = 3500
+        self.kapital = 10000
         
 
     def give_loan(self):
@@ -18,8 +18,8 @@ class Bank(Agent):
         self.model.firm.kapital += self.model.firm.loan
         self.kapital -= self.model.firm.loan
         for i in self.model.schedule.agents:
-            i.kapital += loan_households/self.model.n_households
-            #i.loan = loan_households
+            i.kapital = loan_households/self.model.n_households
+            i.loan = loan_households/self.model.n_households
             self.model.sum_loans_households += loan_households/self.model.n_households
 
         self.kapital -= loan_households   

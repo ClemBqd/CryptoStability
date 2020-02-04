@@ -14,6 +14,12 @@ P2 = 0.45 # propension to speculate risk high
 P1 = 0.2 # risk medium
 P0 = 0.05 # risk low
 
+def kapital_new(model):
+    households_k = 0
+    for i in model.schedule.agents:
+        households_k += i.kapital
+    return households_k
+
 def increase_kapital_households(model):
     kh = 0
     khp = 0
@@ -95,7 +101,6 @@ class BtcModel(Model):
         self.production = 0
         self.kapital_households = [] 
         self.kapital_households_speculators = []
-        self.kapital_global = 7.5*n_households
         self.kapital_global_btcModel = []
         self.kh_high = 0
         self.kh_medium = 0
@@ -109,7 +114,7 @@ class BtcModel(Model):
         self.alpha = 0.5
         self.beta = 0.5
         self.techno = 1.3 # technology factor
-        self.gamma = 0.67 # coefficient of production applie to salaries
+        self.gamma = 0.6 # coefficient of production applie to salaries 0.67
         self.n = 12 
 
         self.start_datetime = datetime(2017, 1, 1,tzinfo=None)
@@ -118,7 +123,7 @@ class BtcModel(Model):
         self.datacollector = DataCollector(
             model_reporters={"Production": production,
                             "KapitalG": evolution_kapital_global,
-                            "KapitalH": graph_households_kapital,
+                            "KapitalH": kapital_new,
                             "WagesH" : graph_households_wage,
                             "sum_wage":increase_wages_households,
                             "KapitalF": graph_kapital_firm,
@@ -176,12 +181,14 @@ def addMonth(source):
         
 
 def diff(model):
+    a=0
     model.sum_wages_households = 0
     model.sum_consumption_households = 0
     for i in model.schedule.agents:
         model.sum_wages_households += i.wage
         model.sum_consumption_households += i.conso
-    return model.sum_wages_households-model.sum_consumption_households
+    a=model.sum_wages_households-model.sum_consumption_households
+    return a
 
 class SinuModel(BtcModel):
     def __init__(self, n_households, df3, list_kapital_global):
