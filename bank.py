@@ -18,11 +18,12 @@ class Bank(Agent):
         self.model.firm.kapital += self.model.firm.loan
         self.kapital -= self.model.firm.loan
         for i in self.model.schedule.agents:
-            i.kapital += loan_households
-            i.loan = loan_households
-            self.model.sum_loans_households += loan_households
-            self.kapital -= loan_households
-        self.model.kapital_global += self.model.sum_loans_households 
+            i.kapital += loan_households/self.model.n_households
+            #i.loan = loan_households
+            self.model.sum_loans_households += loan_households/self.model.n_households
+
+        self.kapital -= loan_households   
+        self.model.kapital_global = self.model.sum_loans_households 
         
     def evolution(self):
         kh = len(self.model.kapital_households)

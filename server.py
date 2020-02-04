@@ -41,9 +41,9 @@ server = ModularServer(BtcModel,
          {"n_households":20, "df3": 'pfebtc.xlsx'})
 
 
-server2 = ModularServer(SinuModel,
-                        [kapital_households_global_chart],
-                        "SinuModel",
-                        {"n_households":20, "df3": 'pfebtc.xlsx', "list_kapital_global": server.kapital_global_btcModel})
+#server2 = ModularServer(SinuModel,
+                        #[kapital_households_global_chart],
+                        #"SinuModel",
+                        #{"n_households":20, "df3": 'pfebtc.xlsx', "list_kapital_global": server.kapital_global_btcModel})
 #server.port = 8523 #The default
 #server.launch()

@@ -20,10 +20,11 @@ def increase_kapital_households(model):
     for i in model.schedule.agents:
         if i.risk_profile == -1:
             kh += i.kapital
+            model.kapital_households.append(kh)
         else:
             khp += i.kapital    
-    model.kapital_households.append(kh)
-    model.kapital_households_speculators.append(khp)
+            model.kapital_households_speculators.append(khp)
+    
 
 def increase_wages_households(model):
     model.sum_wages_households = 0
@@ -60,14 +61,18 @@ def get_kapital_h(model):
             model.kh += i.kapital
 
 def graph_households_kapital(model):
-    for i in range(model.n_households):
+    a=0
+    for i in range(model.n_households+2):
         if i >= 3:
-            return model.schedule.agents[i].kapital
+            a += model.schedule.agents[i].kapital
+            return a
 
 def graph_households_wage(model):
-    for i in range(model.n_households):
-        if i >= 3:    
-            return model.schedule.agents[i].wage
+    b = 0
+    for i in range(model.n_households+2):
+        if i >= 3:  
+            b += model.schedule.agents[i].wage
+            return b
 
 def evolution_kapital_global(model):
     model.kapital_global = (1 + rk/model.n)*(model.kh_low*(1-P0) + model.kh_medium*(1-P1) + model.kh_high*(1-P2) + model.kh) + model.sum_wages_households - model.sum_consumption_households + model.sum_speculator_portfolio - model.sum_loans_households/(3*model.n)- model.sum_loans_households*rate_loan_h/model.n 
