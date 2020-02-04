@@ -48,7 +48,7 @@ def production(model):
     households_k = 0
     for i in model.schedule.agents:
         households_k += i.kapital
-    model.production = model.techno*((model.firm.kapital+ households_k + model.bank.kapital)**model.alpha)*(model.travail**(1 - model.alpha)) #households_k + model.bank.kapital
+    model.production = model.techno*((model.firm.kapital)**model.alpha)*(model.travail**(1 - model.alpha)) #households_k + model.bank.kapital
     return model.production
 
 def get_kapital_h(model):
