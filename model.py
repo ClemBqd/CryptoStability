@@ -80,6 +80,13 @@ def graph_households_wage(model):
             b += model.schedule.agents[i].wage
             return b
 
+def graph_households_conso(model):
+    b = 0
+    for i in range(model.n_households+2):
+        if i >= 3:  
+            b += model.schedule.agents[i].conso
+            return b
+
 def evolution_kapital_global(model):
     model.kapital_global = (1 + rk/model.n)*(model.kh_low*(1-P0) + model.kh_medium*(1-P1) + model.kh_high*(1-P2) + model.kh) + model.sum_wages_households - model.sum_consumption_households + model.sum_speculator_portfolio - model.sum_loans_households/(3*model.n)- model.sum_loans_households*rate_loan_h/model.n 
     model.kapital_global_btcModel.append(model.kapital_global)
@@ -102,6 +109,7 @@ class BtcModel(Model):
         self.kapital_households = [] 
         self.kapital_households_speculators = []
         self.kapital_global_btcModel = []
+        self.kapital_global = 7.5*n_households
         self.kh_high = 0
         self.kh_medium = 0
         self.kh_low = 0
@@ -126,6 +134,7 @@ class BtcModel(Model):
                             "KapitalH": kapital_new,
                             "WagesH" : graph_households_wage,
                             "sum_wage":increase_wages_households,
+                            "Conso":graph_households_conso,
                             "KapitalF": graph_kapital_firm,
                             "KapitalB": graph_kapital_bank,
                             "diff": diff},
