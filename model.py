@@ -182,7 +182,14 @@ class SinuModel(BtcModel):
     def __init__(self, n_households, df3, list_kapital_global):
         BtcModel.__init__(self, n_households, df3)
         self.list_kapital_global = list_kapital_global
-    
+        self.R = []
+        self.i = 0
+
+    def calcul_taux(self):
+        R=-1+(self.list_kapital_global[self.i]-(self.sum_wages_households - self.sum_consumption_households + self.sum_speculator_portfolio - self.sum_loans_households/(3*self.n)- self.sum_loans_households*rate_loan_h/self.n ))/(self.kh_low*(1-P0) + self.kh_medium*(1-P1) + self.kh_high*(1-P2) + self.kh)
+        self.R.append(R)
+        self.i += 1
+
     def step(self):
         before_datetime = self.current_datetime
 		# Update the current_datetime
