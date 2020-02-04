@@ -30,14 +30,18 @@ def increase_kapital_households(model):
         else:
             khp += i.kapital    
             model.kapital_households_speculators.append(khp)
-    
+            
+def increase_conso_households(model):
+    model.sum_consumption_households = 0
+    for i in model.schedule.agents:
+        model.sum_consumption_households += i.conso
+    return model.sum_consumption_households
+
 
 def increase_wages_households(model):
     model.sum_wages_households = 0
-    model.sum_consumption_households = 0
     for i in model.schedule.agents:
         model.sum_wages_households += i.wage
-        model.sum_consumption_households += i.conso
     return model.sum_wages_households
 
 def production(model):
@@ -122,7 +126,7 @@ class BtcModel(Model):
         self.alpha = 0.5
         self.beta = 0.5
         self.techno = 1.3 # technology factor
-        self.gamma = 0.6 # coefficient of production applie to salaries 0.67
+        self.gamma = 0.67 # coefficient of production applie to salaries 0.67
         self.n = 12 
 
         self.start_datetime = datetime(2017, 1, 1,tzinfo=None)
@@ -176,6 +180,7 @@ class BtcModel(Model):
         # Tell all the agents in the model to run their step function
         self.schedule.step()
         evolution_kapital_global(self)
+        increase_conso_households(self)
         increase_wages_households(self)
         self.firm.step()
         increase_kapital_households(self)
