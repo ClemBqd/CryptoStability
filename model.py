@@ -204,28 +204,36 @@ def diff(model):
     a=model.sum_wages_households-model.sum_consumption_households
     return a
 
+def calcul_taux(model):
+    R = -1 + (model.list_kapital_global[model.i] - (model.sum_wages_households - model.sum_consumption_households + model.sum_speculator_portfolio - model.sum_loans_households/(3*model.n) - model.sum_loans_households*rate_loan_h/model.n )) / (model.kh_low*(1-P0) + model.kh_medium*(1-P1) + model.kh_high*(1-P2) + model.kh)
+    model.R.append(R)
+    model.i += 1
+    return R
+
 class SinuModel(BtcModel):
     def __init__(self, n_households, df3, list_kapital_global):
         BtcModel.__init__(self, n_households, df3)
         self.list_kapital_global = list_kapital_global
         self.R = []
         self.i = 0
+        self.sinu_datacollector = DataCollector(
+            model_reporters={"Rate": calcul_taux}
+        )
+        get_kapital_h(self)
 
-    def calcul_taux(self):
-        R=-1+(self.list_kapital_global[self.i]-(self.sum_wages_households - self.sum_consumption_households + self.sum_speculator_portfolio - self.sum_loans_households/(3*self.n)- self.sum_loans_households*rate_loan_h/self.n ))/(self.kh_low*(1-P0) + self.kh_medium*(1-P1) + self.kh_high*(1-P2) + self.kh)
-        self.R.append(R)
-        self.i += 1
-
+    
     def step(self):
         before_datetime = self.current_datetime
 		# Update the current_datetime
         self.current_datetime = addMonth(before_datetime)
         # Collect data
         self.datacollector.collect(self)
+        self.sinu_datacollector.collect(self)
         get_kapital_h(self)
         # Tell all the agents in the model to run their step function
         self.schedule.step()
-        evolution_kapital_global(self)
+        calcul_taux(self)
+        #evolution_kapital_global(self)
         increase_wages_households(self)
         self.firm.step()
         increase_kapital_households(self)
