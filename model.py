@@ -77,6 +77,20 @@ def graph_households_kapital(model):
             a += model.schedule.agents[i].kapital
             return a
 
+def graph_households_risk_averse_kapital(model):
+    a=0
+    for i in model.schedule.agents:
+        if i.risk_profile == -1:
+            a += i.kapital
+            return a
+
+def graph_households_speculator_kapital(model):
+    a=0
+    for i in model.schedule.agents:
+        if i.risk_profile != -1:
+            a += i.kapital
+            return a
+
 def graph_households_wage(model):
     b = 0
     for i in range(model.n_households+2):
@@ -92,7 +106,8 @@ def graph_households_conso(model):
             return b
 
 def evolution_kapital_global(model):
-    model.kapital_global = (1 + rk/model.n)*(model.kh_low*(1-P0) + model.kh_medium*(1-P1) + model.kh_high*(1-P2) + model.kh) + model.sum_wages_households - model.sum_consumption_households + model.sum_speculator_portfolio - model.sum_loans_households/(3*model.n)- model.sum_loans_households*rate_loan_h/model.n 
+    #model.kapital_global = (1 + rk/model.n)*model.kh + (model.kh_high - model.kh_high*P2) + (model.kh_medium - model.kh_medium*P1) + (model.kh_low - model.kh_low*P0) + (model.kh_high + model.kh_medium + model.kh_low - model.sum_speculator_portfolio)*rk/model.n + model.sum_wages_households - model.sum_consumption_households  - model.sum_loans_households/(10*model.n) - model.sum_loans_households*rate_loan_h/model.n + model.sum_speculator_portfolio
+    model.kapital_global = (1 + rk/model.n)*(model.kh_low*(1-P0) + model.kh_medium*(1-P1) + model.kh_high*(1-P2) + model.kh) + model.sum_wages_households - model.sum_consumption_households + model.sum_speculator_portfolio - model.sum_loans_households/(10*model.n)- model.sum_loans_households*rate_loan_h/model.n 
     model.kapital_global_btcModel.append(model.kapital_global)
     return model.kapital_global
 
@@ -136,6 +151,8 @@ class BtcModel(Model):
             model_reporters={"Production": production,
                             "KapitalG": evolution_kapital_global,
                             "KapitalH": kapital_new,
+                            "Kapital_households_risk_averse": graph_households_risk_averse_kapital,
+                            "Kapital_households_speculator": graph_households_speculator_kapital,
                             "WagesH" : graph_households_wage,
                             "sum_wage":increase_wages_households,
                             "Conso":graph_households_conso,
@@ -143,6 +160,7 @@ class BtcModel(Model):
                             "KapitalB": graph_kapital_bank,
                             "diff": diff},
             agent_reporters={"Wage": "wage"})
+        
         self.running = True
         
         # Create  a bank, a firm and n household

@@ -5,7 +5,7 @@ import pandas as pd
 from datetime import datetime, timedelta
 
 #df3 = pd.read_excel('pfebtc.xlsx') 
-
+rate_loan_var = pd.read_excel('pfebtc2.xlsx') #To input as rate_loan_var['Taux loan'][rate_loan_var.loc[rate_loan_var['Date'] == self.model.current_datetime].index.item()]
 class Household(Agent):
     def __init__(self, unique_id, risk_profile, P, model):
         self.unique_id = unique_id
@@ -21,6 +21,7 @@ class Household(Agent):
         
     def kapital_evolution(self):
         if self.risk_profile != -1:
+            #self.kapital = self.kapital + self.kapital*self.P + (self.kapital - self.speculator_portfolio)*(rk/self.model.n) + self.wage - self.conso - self.loan/(10*self.model.n)- self.loan*rate_loan_h/self.model.n
             self.kapital = (1 + rk/self.model.n)*self.kapital*(1-self.P) + self.wage - self.conso - self.loan/(10*self.model.n)- self.loan*rate_loan_h/self.model.n+self.speculator_portfolio
         else:    
             self.kapital = (1 + rk/self.model.n)*self.kapital + self.wage - self.conso - self.loan/(10*self.model.n)- self.loan*rate_loan_h/self.model.n

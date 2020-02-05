@@ -11,7 +11,7 @@ btc_model = BtcModel(20, 'pfebtc.xlsx')
 
 for i in range(36):
     btc_model.step()
-
+'''
 # Test SinuModel avec variation réelle du bitcoin
 sinu_model = SinuModel(20,'pfebtc.xlsx', btc_model.kapital_global_btcModel)
 for i in range(36):
@@ -42,11 +42,16 @@ rate_chart = ChartModule([{"Label" : "Rate",
                             "Color": "Black"}],
                             data_collector_name="sinu_datacollector")
 
+kapital_households_global_chart = ChartModule([{"Label" : "KapitalG",
+                                                "Color": "Red"}],
+                                                data_collector_name="datacollector") 
+
+
 server2 = ModularServer(SinuModel,
-                        [kapital_households_chart, rate_chart],
+                        [kapital_households_chart, kapital_households_global_chart, rate_chart],
                         "SinuModel",
                         {"n_households":20, "df3": 'pfebtc.xlsx', "list_kapital_global": btc_model.kapital_global_btcModel})
 
-server2.port = 8523 #The default
+server2.port = 8524 #The default
 server2.launch()
-'''
+

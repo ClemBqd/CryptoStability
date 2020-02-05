@@ -11,8 +11,17 @@ kapital_households_global_chart = ChartModule([{"Label" : "KapitalG",
                                                 data_collector_name="datacollector") 
 
 kapital_households_chart = ChartModule([{"Label" : "KapitalH",
+                                                "Color": "Red"}],
+                                                data_collector_name="datacollector") 
+
+kapital_households_risk_averse_chart = ChartModule([{"Label" : "Kapital_households_risk_averse",
                                                 "Color": "Blue"}],
                                                 data_collector_name="datacollector") 
+
+kapital_households_speculator_chart = ChartModule([{"Label" : "Kapital_households_speculator",
+                                                "Color": "Green"}],
+                                                data_collector_name="datacollector") 
+
 
 wage_households_chart = ChartModule([{"Label" : "WagesH",
                                                 "Color": "Black"}],
@@ -39,7 +48,7 @@ diff1 = ChartModule([{"Label" : "diff",
                                                 data_collector_name="datacollector") 
 
 server = ModularServer(BtcModel,
-        [kapital_households_global_chart, Product, kapital_households_chart, wage_households_chart,conso_households_chart, wage_households_sum_chart, kapital_firm_chart, kapital_bank_chart,diff1],
+        [kapital_households_chart, kapital_households_global_chart ,kapital_households_risk_averse_chart, kapital_households_speculator_chart],
          "Btc Model",
          {"n_households":20, "df3": 'pfebtc.xlsx'})
 

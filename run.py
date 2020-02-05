@@ -1,4 +1,4 @@
 from server import server
 
-s#erver.port = 8521
-#server.launch()
+server.port = 8522
+server.launch()

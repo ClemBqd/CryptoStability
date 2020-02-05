@@ -3,7 +3,7 @@ from mesa import Agent
 reserve_percent = 0.1
 rk = 0.01 # deposit rate of households
 rate_loan_f = 0.005 # rate loan of firm
-rate_loan_h = 0.01 # rate loan of households
+rate_loan_h = 0.05 # rate loan of households
 
 class Bank(Agent):
     def __init__(self, unique_id, model):
